@@ -1,9 +1,11 @@
 databaseChangeLog:
-  - changeSet:
-      id: create-user-table
-      author: transaction-service
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: user_details
+  - include:
+      file: db/migration/test-changes/tbl_user_details.sql
+  - include:
+      file: db/migration/test-changes/tbl_account_configs.sql
+  - include:
+      file: db/migration/test-changes/tbl_account_details.sql
+  - include:
+      file: db/migration/test-changes/tbl_transaction_types.sql
+  - include:
+      file: db/migration/test-changes/tbl_transactions.sql

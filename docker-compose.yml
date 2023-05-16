@@ -1,5 +1,15 @@
 version: '3.9'
 services:
+  service-mariadb:
+    image: mariadb:10.5
+    restart: unless-stopped
+    environment:
+      - MARIADB_DATABASE=transactions
+      - MARIADB_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+      - MARIADB_USER=transactions
+      - MARIADB_PASSWORD=mauFJcuf5dhRMQrjj
+    ports:
+      - '3308:3306'
   transaction-service:
     image: transactions:latest
     platform: linux/amd64
@@ -27,18 +37,6 @@ services:
       - service-mysql
       - localstack
     restart: on-failure
-  service-mariadb:
-    image: mariadb:10.5
-    restart: unless-stopped
-    environment:
-      - MARIADB_DATABASE=transactions
-      - MARIADB_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
-      - MARIADB_USER=transactions
-      - MARIADB_PASSWORD=mauFJcuf5dhRMQrjj
-    ports:
-     - '3308:3306'
-    expose:
-      - '3306'
 # Names our volume
 volumes:
   transactions:

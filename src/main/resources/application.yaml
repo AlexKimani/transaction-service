@@ -18,6 +18,8 @@ spring:
     default-schema: transactions
     user: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
+    parameters:
+      textColumnType: TEXT
   sql:
     init:
       mode: always
