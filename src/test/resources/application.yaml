@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: transaction-service
+  profiles:
+    active: test
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    url: jdbc:h2:mem:transactions;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS transactions;
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+
+  liquibase:
+    change-log: db/migration/db-test-changelog.yaml
+    default-schema: transactions
+    parameters:
+      textColumnType: VARCHAR(250)
+      contexts: nonprod
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+  cloud:
+    config:
+      enabled: false
+
+logging:
+  level:
+    "liquibase" : info
+
+management:
+  endpoint:
+    health:
+      enabled: true
+

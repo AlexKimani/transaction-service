@@ -5,21 +5,26 @@ spring:
     active: docker
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
 
   datasource:
-    url: jdbc:mysql://192.168.1.116:3306/transactions
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: service
-    password: !23qweASD
+    url: ${DATABASE_URL:}
+    driverClassName: org.mariadb.jdbc.Driver
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
 
   liquibase:
     change-log: db/migration/db-changelog.yaml
     default-schema: transactions
+    user: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
   sql:
     init:
       mode: always
       continue-on-error: false
+  cloud:
+    config:
+      enabled: false
 
 logging:
   level:

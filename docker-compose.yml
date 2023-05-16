@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  transaction-service:
+    image: transactions:latest
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+      cache_from:
+        - alpine:3.10.2
+        - openjdk:17.0.1-jdk-slim
+        - maven:3.8.7-openjdk-18-slim
+    ports:
+      - target: 8080
+        published: 8080
+    volumes:
+        - "./src/main/resources/:/datadir/"
+    depends_on:
+      - service-mariadb
+    environment:
+      - DATABASE_URL=jdbc:mariadb://service-mariadb:3306/transactions?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false
+      - DATABASE_USER=transactions
+      - DATABASE_PASSWORD=mauFJcuf5dhRMQrjj
+      - CONNECTION_TIMEOUT=60000
+      - MAX_POOL_SIZE=5
+    external_links:
+      - service-mysql
+      - localstack
+    restart: on-failure
+  service-mariadb:
+    image: mariadb:10.5
+    restart: unless-stopped
+    environment:
+      - MARIADB_DATABASE=transactions
+      - MARIADB_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+      - MARIADB_USER=transactions
+      - MARIADB_PASSWORD=mauFJcuf5dhRMQrjj
+    ports:
+     - '3308:3306'
+    expose:
+      - '3306'
+# Names our volume
+volumes:
+  transactions:
