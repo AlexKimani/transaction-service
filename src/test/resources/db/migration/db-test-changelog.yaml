@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: transaction-service
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: user_details
